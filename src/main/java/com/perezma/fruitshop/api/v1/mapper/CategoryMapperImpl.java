@@ -10,9 +10,15 @@ public class CategoryMapperImpl implements CategoryMapper {
     @Override
     public CategoryDTO categoryToCategoryDTO(Category category) {
 
+        if (category == null) {
+            return null;
+        }
+
         CategoryDTO dto = new CategoryDTO();
+
         dto.setId(category.getId());
         dto.setName(category.getName());
+
         return dto;
     }
 }
