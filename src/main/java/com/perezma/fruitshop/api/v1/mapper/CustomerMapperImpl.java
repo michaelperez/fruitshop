@@ -21,4 +21,19 @@ public class CustomerMapperImpl implements CustomerMapper {
 
         return customerDTO;
     }
+
+    @Override
+    public Customer customerDtoToCustomer(CustomerDTO customerDTO) {
+
+        if (customerDTO == null) {
+            return null;
+        }
+
+        Customer customer = new Customer();
+
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+
+        return customer;
+    }
 }

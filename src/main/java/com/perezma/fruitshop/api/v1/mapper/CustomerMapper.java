@@ -5,4 +5,6 @@ import com.perezma.fruitshop.domain.Customer;
 
 public interface CustomerMapper {
     CustomerDTO customerToCustomerDTO(Customer customer);
+
+    Customer customerDtoToCustomer(CustomerDTO customerDTO);
 }
