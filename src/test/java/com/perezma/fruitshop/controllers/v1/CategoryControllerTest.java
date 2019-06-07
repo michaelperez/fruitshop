@@ -58,7 +58,7 @@ public class CategoryControllerTest {
 
         when(categoryService.getAllCategories()).thenReturn(categories);
 
-        mockMvc.perform(get("/api/v1/categories/")
+        mockMvc.perform(get(CategoryController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(2)));
@@ -74,7 +74,7 @@ public class CategoryControllerTest {
 
         // the url path must match mapping in controller, though name in path is not used.
         // Only dto1 is returned and tested.
-        mockMvc.perform(get("/api/v1/categories/Mikey")
+        mockMvc.perform(get(CategoryController.BASE_URL + "/" + NAME1)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME1)));

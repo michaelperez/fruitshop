@@ -2,6 +2,7 @@ package com.perezma.fruitshop.services;
 
 import com.perezma.fruitshop.api.v1.mapper.CustomerMapperImpl;
 import com.perezma.fruitshop.api.v1.model.CustomerDTO;
+import com.perezma.fruitshop.controllers.v1.CustomerController;
 import com.perezma.fruitshop.domain.Customer;
 import com.perezma.fruitshop.repositories.CustomerRepository;
 import org.junit.Before;
@@ -104,7 +105,7 @@ public class CustomerServiceTest {
 
         //then
         assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
-        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+        assertEquals(getCustomerUrl(1L), savedDto.getCustomerUrl());
 
     }
 
@@ -127,7 +128,7 @@ public class CustomerServiceTest {
 
         //then
         assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
-        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+        assertEquals(getCustomerUrl(1L), savedDto.getCustomerUrl());
     }
 
     @Test
@@ -136,6 +137,10 @@ public class CustomerServiceTest {
         Long id = 1L;
         service.deleteCustomerById(id);
         verify(repository, times(1)).deleteById(anyLong());
+    }
+
+    private String getCustomerUrl(Long id) {
+        return CustomerController.BASE_URL + "/" + id;
     }
 
 }
