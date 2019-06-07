@@ -1,6 +1,7 @@
 package com.perezma.fruitshop.controllers.v1;
 
 import com.perezma.fruitshop.api.v1.model.CustomerDTO;
+import com.perezma.fruitshop.controllers.RestResponseEntityExceptionHandler;
 import com.perezma.fruitshop.services.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,9 @@ public class CustomerControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test

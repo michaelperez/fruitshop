@@ -1,6 +1,7 @@
 package com.perezma.fruitshop.controllers.v1;
 
 import com.perezma.fruitshop.api.v1.model.CategoryDTO;
+import com.perezma.fruitshop.controllers.RestResponseEntityExceptionHandler;
 import com.perezma.fruitshop.services.CategoryService;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,9 @@ public class CategoryControllerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
 
     }
 
