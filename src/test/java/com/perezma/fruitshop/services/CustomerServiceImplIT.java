@@ -6,6 +6,7 @@ import com.perezma.fruitshop.bootstrap.Bootstrap;
 import com.perezma.fruitshop.domain.Customer;
 import com.perezma.fruitshop.repositories.CategoryRepository;
 import com.perezma.fruitshop.repositories.CustomerRepository;
+import com.perezma.fruitshop.repositories.VendorRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,9 @@ public class CustomerServiceImplIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     @Before
@@ -39,7 +43,7 @@ public class CustomerServiceImplIT {
         System.out.println(customerRepository.findAll().size());
 
         //setup data for testing
-        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository);
+        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository, vendorRepository);
         bootstrap.run(); //load data
 
         customerService = new CustomerServiceImpl(new CustomerMapperImpl(), customerRepository);

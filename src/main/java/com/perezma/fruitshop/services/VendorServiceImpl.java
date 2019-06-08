@@ -2,11 +2,13 @@ package com.perezma.fruitshop.services;
 
 import com.perezma.fruitshop.api.v1.mapper.VendorMapper;
 import com.perezma.fruitshop.api.v1.model.VendorDTO;
-import com.perezma.fruitshop.domain.Vendor;
+import com.perezma.fruitshop.api.v1.model.VendorListDTO;
+import com.perezma.fruitshop.controllers.v1.VendorController;
 import com.perezma.fruitshop.repositories.VendorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -20,13 +22,29 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public List<Vendor> getAllVendors() {
-        return null;
+    public VendorListDTO getAllVendors() {
+        List<VendorDTO> vendorDTOS = vendorRepository
+                .findAll()
+                .stream()
+                .map(vendor -> {
+                    VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
+                    vendorDTO.setVendorUrl(getVendorUrl(vendor.getId()));
+                    return vendorDTO;
+                })
+                .collect(Collectors.toList());
+
+        return new VendorListDTO(vendorDTOS);
     }
 
     @Override
-    public Vendor getVendorById(String id) {
-        return null;
+    public VendorDTO getVendorById(Long id) {
+        return vendorRepository.findById(id)
+                .map(vendorMapper::vendorToVendorDTO)
+                .map(vendorDTO -> {
+                    vendorDTO.setVendorUrl(getVendorUrl(id));
+                    return vendorDTO;
+                })
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -48,4 +66,9 @@ public class VendorServiceImpl implements VendorService {
     public void deleteVendorById(Long id) {
 
     }
+
+    private String getVendorUrl(Long id) {
+        return VendorController.BASE_URL + "/" + id;
+    }
+
 }

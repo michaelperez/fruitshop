@@ -1,15 +1,13 @@
 package com.perezma.fruitshop.services;
 
 import com.perezma.fruitshop.api.v1.model.VendorDTO;
-import com.perezma.fruitshop.domain.Vendor;
-
-import java.util.List;
+import com.perezma.fruitshop.api.v1.model.VendorListDTO;
 
 public interface VendorService {
 
-    List<Vendor> getAllVendors();
+    VendorListDTO getAllVendors();
 
-    Vendor getVendorById(String id);
+    VendorDTO  getVendorById(Long id);
 
     VendorDTO createNewVendor(VendorDTO vendorDTO);
 
