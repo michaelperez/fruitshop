@@ -94,7 +94,23 @@ public class VendorServiceTest {
     }
 
     @Test
-    public void saveVendorById() {
+    public void updateVendor() {
+
+        //given
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName(NAME_1);
+
+        Vendor vendor = getVendor1();
+
+        given(vendorRepository.save(any(Vendor.class))).willReturn(vendor);
+
+        //when
+        VendorDTO savedVendorDTO = vendorService.updateVendor(ID_1, vendorDTO);
+
+        //then
+        // 'should' defaults to times = 1
+        then(vendorRepository).should().save(any(Vendor.class));
+        assertThat(savedVendorDTO.getVendorUrl(), containsString("1"));
     }
 
     @Test
