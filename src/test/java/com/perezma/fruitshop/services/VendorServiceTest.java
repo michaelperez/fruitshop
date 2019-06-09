@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -73,7 +73,24 @@ public class VendorServiceTest {
     }
 
     @Test
-    public void createNewVendor() {
+    public void createNewVendor() throws Exception {
+
+        //given
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName(NAME_1);
+
+        Vendor vendor = getVendor1();
+
+        given(vendorRepository.save(any(Vendor.class))).willReturn(vendor);
+
+        //when
+        VendorDTO savedVendorDTO = vendorService.createNewVendor(vendorDTO);
+
+        //then
+        // 'should' defaults to times = 1
+        then(vendorRepository).should().save(any(Vendor.class));
+        assertThat(savedVendorDTO.getVendorUrl(), containsString("1"));
+
     }
 
     @Test

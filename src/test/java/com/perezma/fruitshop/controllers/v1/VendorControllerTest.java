@@ -15,11 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
+import static com.perezma.fruitshop.controllers.v1.AbstractControllerTest.asJsonString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,6 +65,18 @@ public class VendorControllerTest {
         mockMvc.perform(get(VendorController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", equalTo(vendorDTO_1.getName())));
+    }
+
+    @Test
+    public void createNewVendor() throws Exception {
+
+        given(vendorService.createNewVendor(vendorDTO_1)).willReturn(vendorDTO_1);
+
+        mockMvc.perform(post(VendorController.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(vendorDTO_1)))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(vendorDTO_1.getName())));
     }
 }

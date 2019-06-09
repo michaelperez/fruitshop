@@ -4,6 +4,7 @@ import com.perezma.fruitshop.api.v1.mapper.VendorMapper;
 import com.perezma.fruitshop.api.v1.model.VendorDTO;
 import com.perezma.fruitshop.api.v1.model.VendorListDTO;
 import com.perezma.fruitshop.controllers.v1.VendorController;
+import com.perezma.fruitshop.domain.Vendor;
 import com.perezma.fruitshop.repositories.VendorRepository;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorDTO createNewVendor(VendorDTO vendorDTO) {
-        return null;
+        return saveAndReturnDTO(vendorMapper.vendorDTOToVendor(vendorDTO));
     }
 
     @Override
@@ -69,6 +70,14 @@ public class VendorServiceImpl implements VendorService {
 
     private String getVendorUrl(Long id) {
         return VendorController.BASE_URL + "/" + id;
+    }
+
+    private VendorDTO saveAndReturnDTO(Vendor vendor) {
+        Vendor savedVendor = vendorRepository.save(vendor);
+        VendorDTO returnDto = vendorMapper.vendorToVendorDTO(savedVendor);
+        returnDto.setVendorUrl(getVendorUrl(savedVendor.getId()));
+
+        return returnDto;
     }
 
 }
